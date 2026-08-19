@@ -217,8 +217,11 @@ function pathToSubPaths(
   elementName: string,
 ): SubPath[] {
   let sp = svgpath(d);
-  if (sp.err) {
-    warnings.add(`Skipped a <${elementName}> with unparsable path data (${sp.err}).`);
+  // `err` is real but missing from svgpath's shipped index.d.ts — hence the
+  // cast (an ambient re-declaration of the module conflicts with those types).
+  const parseError = (sp as unknown as { err?: string }).err;
+  if (parseError) {
+    warnings.add(`Skipped a <${elementName}> with unparsable path data (${parseError}).`);
     return [];
   }
   sp = sp.abs().unshort().unarc();

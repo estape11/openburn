@@ -2,8 +2,9 @@
  * Geometric primitives shared by the whole IR.
  *
  * Unit discipline (DEVELOPMENT_GUIDE §9): everything in the IR is in
- * **millimeters**. The px→mm conversion and the SVG→machine Y-axis flip happen
- * exactly once, in the geometry stage — nothing downstream ever sees pixels.
+ * **millimeters**. The px→mm conversion happens exactly once, in the SVG
+ * importer; the SVG→machine Y-axis flip happens exactly once, in the geometry
+ * stage — nothing downstream ever sees pixels.
  */
 
 /** 2D point. Millimeters. Machine orientation (Y grows upward) unless the

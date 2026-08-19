@@ -3,4 +3,5 @@
 // Remaining v0.1.0 structure: svg/, geometry/, planner/.
 
 export * from './ir/index.js';
+export * from './svg/index.js';
 export { formatCoord } from './emit/format.js';

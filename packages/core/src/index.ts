@@ -4,4 +4,5 @@
 
 export * from './ir/index.js';
 export * from './svg/index.js';
+export * from './geometry/index.js';
 export { formatCoord } from './emit/format.js';

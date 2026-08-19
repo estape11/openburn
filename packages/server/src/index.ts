@@ -1,4 +1,6 @@
 // @openburn/server — transports, GRBL protocol, HTTP/WS API, GRBL simulator.
-// Structure lands with v0.1.0 issues: transport/, grbl/, api/, sim/.
+// Remaining v0.1.0 structure: api/ (#15).
 
-export const SERVER_NAME = 'openburn-server';
+export * from './transport/index.js';
+export * from './grbl/index.js';
+export * from './sim/index.js';

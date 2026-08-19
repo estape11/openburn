@@ -144,6 +144,10 @@ export class GrblSimulator extends EventEmitter {
         if (this.partial.length > 0) {
           this.queue.push(this.partial);
           this.partial = '';
+          // Observability for protocol tests: how full is the ring when a line
+          // lands? A streaming sender shows several lines here; a naive
+          // send-response sender never exceeds one.
+          this.emit('queued', { rxUsed: this.rxUsed, depth: this.queue.length });
           void this.drain();
         } else {
           this.rxUsed -= 1; // bare CR/LF costs nothing, as in the firmware parser

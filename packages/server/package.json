@@ -12,10 +12,12 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "build": "tsc",
-    "dev": "echo 'Not implemented yet — server lands in Phase 2 (see ROADMAP.md v0.1.0)' && exit 1",
-    "sim": "echo 'Not implemented yet — GRBL simulator lands in Phase 2 (see ROADMAP.md v0.1.0)' && exit 1"
+    "test": "vitest run",
+    "dev": "echo 'Not implemented yet — server lands with #15 (see ROADMAP.md v0.1.0)' && exit 1",
+    "sim": "tsx src/sim/cli.ts"
   },
   "devDependencies": {
-    "@types/node": "^22.7.9"
+    "@types/node": "^22.7.9",
+    "tsx": "^4.19.1"
   }
 }

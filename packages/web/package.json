@@ -1,0 +1,25 @@
+{
+  "name": "@openburn/web",
+  "version": "0.0.1",
+  "private": true,
+  "description": "OpenBurn web UI: workspace canvas, layers, device control.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "typecheck": "vue-tsc --noEmit",
+    "build": "vite build",
+    "dev": "vite"
+  },
+  "dependencies": {
+    "pinia": "^4.0.3",
+    "vue": "^3.5.12"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.8",
+    "vite": "^8.2.1",
+    "vue-tsc": "^3.3.10"
+  }
+}

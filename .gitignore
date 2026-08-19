@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+*.tsbuildinfo
+
+# Test artifacts
+coverage/
+test-results/
+playwright-report/
+
+# Environment (real values live outside the tree; see .env.example when it exists)
+.env
+.env.*
+!.env.example
+
+# Editor / OS
+.DS_Store
+*.swp
+.idea/
+
+# Claude Code: shared config IS versioned (.claude/settings.json, commands/, skills/);
+# only per-machine state is ignored. Deliberate improvement over ignoring .claude/ wholesale.
+.claude/settings.local.json
+.claude/worktrees/
+.claude/*.lock
+
+# Logs
+*.log

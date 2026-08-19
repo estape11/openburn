@@ -1,0 +1,62 @@
+name: User story
+description: New functionality or a change that affects an end user
+title: 'feat: <summary>'
+labels: ['type: feature']
+body:
+  - type: textarea
+    id: story
+    attributes:
+      label: User story
+      placeholder: |
+        **As** a laser user
+        **I want** to assign power and speed per SVG color
+        **so that** one file can cut and mark in a single job.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Observable criteria — without these the PR cannot be approved.
+      placeholder: |
+        - [ ] Each distinct stroke color in the SVG appears as a layer
+        - [ ] Power (%) and speed (mm/min) are editable per layer
+        - [ ] A layer with output off emits no G-code
+    validations:
+      required: true
+  - type: textarea
+    id: technical
+    attributes:
+      label: Technical details
+      placeholder: 'IR: Layer.settings; emitter: S scaling by $30; UI: LayerPanel.vue'
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies / notes
+      placeholder: |
+        Depends on #N
+        Blocks #M
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - 'priority: medium'
+        - 'priority: high'
+        - 'priority: low'
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Main area
+      description: Pick one; use cross if it spans several packages. Remember dropdowns do NOT apply labels — add `area:`/`priority:` labels and the milestone by hand.
+      options:
+        - 'area: core'
+        - 'area: server'
+        - 'area: web'
+        - 'area: infra'
+        - 'area: docs'
+        - 'area: cross'
+    validations:
+      required: true

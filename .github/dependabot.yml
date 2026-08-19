@@ -1,0 +1,29 @@
+# Complements the `npm audit` CI job: audit WARNS about known vulnerabilities;
+# this OPENS the PRs that fix them (and keeps the rest up to date).
+#
+# Weekly cadence (Mondays) and per-ecosystem open-PR limits so the noise doesn't
+# drown normal work. Version updates are grouped (minor+patch in one PR);
+# SECURITY updates dependabot opens separately as soon as the advisory ships.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      npm-minor:
+        applies-to: version-updates
+        update-types:
+          - minor
+          - patch
+
+  # The `uses:` in .github/workflows/ are pinned by SHA with a version comment;
+  # dependabot updates the SHA and the comment together.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 2

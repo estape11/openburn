@@ -1,0 +1,57 @@
+name: Bug report
+description: Something doesn't work as it should
+title: 'fix: <summary>'
+labels: ['type: bug']
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      placeholder: The framing move fires the laser at full power instead of S0.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Connect to the simulator (`npm run sim`)
+        2. Load demo.svg
+        3. Press Frame
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+      placeholder: G1 moves during framing carry S0 (or the configured low power).
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+      placeholder: The emitted stream contains `M4 S1000` before the frame moves. Console log attached.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OpenBurn version/commit, OS, browser, controller (real machine or simulator), firmware welcome line.
+      placeholder: |
+        - OpenBurn: main @ abc1234
+        - Controller: FluidNC v3.7 (Sculpfun S30), TCP 192.168.1.50:23
+        - Browser: Firefox 128 / macOS
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - 'priority: high (safety issue or blocks use)'
+        - 'priority: medium (degrades experience)'
+        - 'priority: low (cosmetic)'
+    validations:
+      required: true

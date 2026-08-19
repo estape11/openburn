@@ -1,0 +1,41 @@
+name: Technical task
+description: Refactor, technical debt, infra, docs, dependencies
+title: '<type>: <summary>'
+labels: ['type: refactor']
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      placeholder: The GRBL protocol tests spin up one simulator per test; suite takes 40s.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What it touches and, just as important, what it does NOT touch — explicit limits.
+      placeholder: |
+        Touches: packages/server test setup.
+        Does NOT touch: the protocol implementation or the simulator behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: done
+    attributes:
+      label: Definition of done
+      placeholder: |
+        - [ ] Simulator shared per file via fixture
+        - [ ] Suite under 10s locally
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - 'priority: medium'
+        - 'priority: high'
+        - 'priority: low'
+    validations:
+      required: true

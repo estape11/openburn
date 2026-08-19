@@ -1,0 +1,6 @@
+# Prose is formatted by humans; Prettier reflows tables and line breaks in ways
+# that fight deliberate doc layout. Code only.
+*.md
+package-lock.json
+dist/
+coverage/

@@ -1,0 +1,16 @@
+# Default owner for everything
+* @estape11
+
+# Packages
+/packages/core/ @estape11
+/packages/server/ @estape11
+/packages/web/ @estape11
+
+# Documentation and process — changes here are process changes, review deliberately
+/DEVELOPMENT_GUIDE.md @estape11
+/ROADMAP.md @estape11
+/FEATURE_CATALOG.md @estape11
+/README.md @estape11
+/SECURITY.md @estape11
+/CHANGELOG.md @estape11
+/.github/ @estape11

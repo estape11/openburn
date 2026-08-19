@@ -1,0 +1,21 @@
+{
+  "name": "@openburn/server",
+  "version": "0.0.1",
+  "private": true,
+  "description": "OpenBurn server: device transports (TCP), GRBL protocol, HTTP/WebSocket API, GRBL simulator.",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc",
+    "dev": "echo 'Not implemented yet — server lands in Phase 2 (see ROADMAP.md v0.1.0)' && exit 1",
+    "sim": "echo 'Not implemented yet — GRBL simulator lands in Phase 2 (see ROADMAP.md v0.1.0)' && exit 1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.9"
+  }
+}

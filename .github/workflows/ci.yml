@@ -1,0 +1,109 @@
+# CI for every push/PR to main. Style notes (inherited from the parent project):
+# - Actions are pinned by SHA with a version comment; dependabot updates both.
+# - `permissions: contents: read` at workflow level — least privilege.
+# - Runners are GitHub-hosted on purpose: the repo is public, and self-hosted
+#   runners executing arbitrary PR code is a known attack vector.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # A PR without an issue is untracked work; a milestone is only trustworthy if
+  # issues close when their work lands. GitHub only parses the ENGLISH keywords
+  # (Closes/Fixes/Resolves) — hence this check instead of trusting memory.
+  pr-issue-link:
+    if: github.event_name == 'pull_request' && github.event.pull_request.user.type != 'Bot'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the PR body links an issue
+        env:
+          # Via env, never interpolated into the script: PR bodies are
+          # attacker-controlled text.
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          if echo "$PR_BODY" | grep -qiE '(close[sd]?|fix(e[sd])?|resolve[sd]?|refs?) #[0-9]+'; then
+            echo "OK: issue linked."
+          else
+            echo "::error::The PR body must link an issue with 'Closes #N' (or 'Refs #N' for partial work). The keyword must be in English — GitHub does not parse translations."
+            exit 1
+          fi
+
+  # Every behavior change ships a changelog fragment (changelog.d/README.md).
+  # Skippable with '[skip changelog]' in the PR body for changes that genuinely
+  # don't affect users.
+  changelog-fragment:
+    if: github.event_name == 'pull_request' && github.event.pull_request.user.type != 'Bot'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          fetch-depth: 0
+      - name: Require a fragment when source changes
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if echo "$PR_BODY" | grep -qiF '[skip changelog]'; then
+            echo "Skipped by [skip changelog]."
+            exit 0
+          fi
+          CHANGED=$(git diff --name-only "$BASE_SHA".."$HEAD_SHA")
+          if ! echo "$CHANGED" | grep -qE '^packages/[^/]+/src/'; then
+            echo "No source changes; fragment not required."
+            exit 0
+          fi
+          if echo "$CHANGED" | grep -qE '^changelog\.d/.+\.md$'; then
+            echo "OK: fragment present."
+          else
+            echo "::error::This PR touches packages/*/src but brings no changelog.d/ fragment. Add changelog.d/<ref>.<type>.md (see changelog.d/README.md) or justify '[skip changelog]' in the PR body."
+            exit 1
+          fi
+
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      # `eslint .` lints EVERYTHING, tests included — CI verifies, it never mutates (no --fix).
+      - run: npm run lint
+      - run: npm run format
+      - run: npm run typecheck
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+  # Blocking on purpose (no continue-on-error): a known-vulnerable dependency
+  # is a red build, not a warning nobody reads. Dependabot opens the fix PRs.
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version-file: .nvmrc
+      - run: npm audit --audit-level=high

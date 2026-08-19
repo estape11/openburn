@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
   - name: Development guide
-    url: https://github.com/estape11/open-burn/blob/main/DEVELOPMENT_GUIDE.md
+    url: https://github.com/estape11/openburn/blob/main/DEVELOPMENT_GUIDE.md
     about: Workflow, conventions and rules for contributing.
   - name: Roadmap
-    url: https://github.com/estape11/open-burn/blob/main/ROADMAP.md
+    url: https://github.com/estape11/openburn/blob/main/ROADMAP.md
     about: What is planned and in which order.
